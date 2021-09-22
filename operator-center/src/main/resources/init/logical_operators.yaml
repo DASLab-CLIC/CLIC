@@ -1,0 +1,74 @@
+# 描述历史的logical的operator的信息，用于初始化系统
+# 在系统逐渐稳定后，依赖对外提供的接口来维护逻辑算子
+
+operators:
+  - name: SimpleOperator # 作为一个算子的示例
+    params: [params1] # 参数，相对用户而言，因此默认都使用string类型即可
+    inputKeys: [data] # 输入数据的key，不填时默认为["data"]
+    outputKeys: [result] # 输出数据的key，不填时默认为["result"]
+    operatorStructure: SOURCE # 算子类型
+  - name: CollectionSinkOperator
+    operatorStructure: SINK
+  - name: CollectionSourceOperator
+    params: [inputList]
+    operatorStructure: SOURCE
+  - name: FilterOperator
+    params: [udfName]
+    operatorStructure: MAP
+  - name: JoinOperator
+    params: [leftKey, leftCols, rightKey, rightCols]
+    inputKeys: [leftTable, rightTable]
+    operatorStructure: JOIN
+  - name: LoopOperator
+    params: [predicateName, loopBody, loopVarUpdateName]
+    inputKeys: [loopVar, data]
+    outputKeys: [loopVar, result]
+    operatorStructure: OTHERS
+  - name: MapOperator
+    params: [udfName]
+    operatorStructure: MAP
+  - name: ReduceByKeyOperator
+    params: [udfName, keyName]
+    operatorStructure: MAP
+  - name: SinkOperator
+    params: [separator, outputPath]
+    operatorStructure: SINK
+  - name: SortOperator
+    params: [udfName]
+    operatorStructure: MAP
+  - name: SourceOperator
+    params: [inputPath, separator]
+    operatorStructure: SOURCE
+#  下面主要是pytorch的operator
+  - name: TrainOperator
+    params: [udfPath, num_epochs, tol_threshold]
+    operatorStructure: JOIN
+    inputKeys: [data, net]
+  - name: DataLoadOperator
+    params: [batch_size, shuffle]
+    operatorStructure: MAP
+  - name: TokenizedOperator
+    params: []
+    operatorStructure: MAP
+  - name: GetVocabOperator
+    params: [min_freq]
+    operatorStructure: MAP
+  - name: NetProcessOperator
+    params: [udfPath]
+    operatorStructure: JOIN
+    inputKeys: [vocab, w2v_dict]
+  - name: PreprocessImdbOperator
+    params: [max_l]
+    operatorStructure: JOIN
+    inputKeys: [data, tokenized_data, vocab]
+  - name: GetWordDictOperator
+    params: []
+    operatorStructure: MAP
+#  以下为MPI平台测试所用的operator
+  - name: FileSource
+    params: [inputPath, mode]
+    operatorStructure: SOURCE
+  - name: MPISVD
+    params: [m, n, k]
+    operatorStructure: MAP
+

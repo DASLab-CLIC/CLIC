@@ -6,7 +6,6 @@ import fdu.daslab.executable.basic.model.ResultModel;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +13,8 @@ import java.util.Map;
  * table的select算子
  *
  * @author 刘丰艺
- * @since 2020/11/20 9:30 PM
  * @version 1.0
+ * @since 2020/11/20 9:30 PM
  */
 public class TProjectOperator extends OperatorBase<Dataset<Row>, Dataset<Row>> {
     public TProjectOperator(String id, List<String> inputKeys, List<String> outputKeys, Map<String, String> params) {
