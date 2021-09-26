@@ -1,5 +1,4 @@
 {
   "name": "spark",
-  "useOperator":"true",
   "params":{"p1": "v1", "p2": "v2"}
 }

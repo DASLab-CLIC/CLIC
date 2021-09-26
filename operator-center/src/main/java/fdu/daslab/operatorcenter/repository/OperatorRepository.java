@@ -45,6 +45,19 @@ public class OperatorRepository {
         return platforms;
     }
 
+    public void setPlatformInfo(String platformName, Platform platform){
+        Platform oldPlatform = platforms.get(platformName);
+        if(platform.getDefaultImage() != null) oldPlatform.setDefaultImage(platform.getDefaultImage());
+        oldPlatform.setUseOperator(platform.isUseOperator());
+        if (platform.getExecCommand() != null) oldPlatform.setExecCommand(platform.getExecCommand());
+        if(platform.getLanguage() != null) oldPlatform.setLanguage(platform.getLanguage());
+        if(platform.getParams().size() != 0){
+            for(Map.Entry<String, String> entry : platform.getParams().entrySet()){
+                oldPlatform.getParams().put(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
     public void addOperator(Operator operator) {
         operators.put(operator.name, operator);
     }
