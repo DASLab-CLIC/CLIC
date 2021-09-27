@@ -1,4 +1,4 @@
-package fdu.daslab.executorcenter.local;
+package fdu.daslab.executorcenter.environments.local;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

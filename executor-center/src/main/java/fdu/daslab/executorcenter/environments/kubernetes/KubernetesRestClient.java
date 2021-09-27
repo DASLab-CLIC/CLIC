@@ -1,4 +1,4 @@
-package fdu.daslab.executorcenter.kubernetes;
+package fdu.daslab.executorcenter.environments.kubernetes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

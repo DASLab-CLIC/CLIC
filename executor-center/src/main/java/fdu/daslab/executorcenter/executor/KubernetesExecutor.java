@@ -2,7 +2,7 @@ package fdu.daslab.executorcenter.executor;
 
 import fdu.daslab.executorcenter.adapter.ParamAdapter;
 import fdu.daslab.executorcenter.client.OperatorClient;
-import fdu.daslab.executorcenter.kubernetes.StrategyFactory;
+import fdu.daslab.executorcenter.environments.kubernetes.StrategyFactory;
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
 import org.apache.thrift.TException;
@@ -20,7 +20,8 @@ import java.util.List;
  * @version 1.0
  * @since 5/23/21 5:38 PM
  */
-@Component
+@Component("kubernetes")
+
 public class KubernetesExecutor implements Executor {
 
     private Logger logger = LoggerFactory.getLogger(KubernetesExecutor.class);

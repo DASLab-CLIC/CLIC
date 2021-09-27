@@ -2,7 +2,7 @@ package fdu.daslab.executorcenter.executor;
 
 import fdu.daslab.executorcenter.adapter.ParamAdapter;
 import fdu.daslab.executorcenter.client.OperatorClient;
-import fdu.daslab.executorcenter.local.LocalJars;
+import fdu.daslab.executorcenter.environments.local.LocalJars;
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
 import org.apache.commons.lang3.StringUtils;

@@ -1,10 +1,8 @@
-package fdu.daslab.executorcenter.kubernetes.strategy;
+package fdu.daslab.executorcenter.environments.kubernetes.strategy;
 
-import fdu.daslab.executorcenter.kubernetes.KubernetesResourceStrategy;
-import fdu.daslab.executorcenter.kubernetes.KubernetesRestClient;
+import fdu.daslab.executorcenter.environments.kubernetes.KubernetesRestClient;
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
