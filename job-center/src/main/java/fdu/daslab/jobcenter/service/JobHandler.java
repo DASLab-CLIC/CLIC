@@ -12,6 +12,9 @@ import org.apache.thrift.TException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * 任务管理相关的实现类
@@ -80,5 +83,9 @@ public class JobHandler implements JobService.Iface{
         jobRepository.updateStage(stage);
     }
 
+    @Override
+    public Map<Integer, Map<Integer, String>> getResult(String jobName){
+        return jobRepository.getResult(jobName);
+    }
 
 }

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author zjchenn
  * @description
@@ -29,14 +32,13 @@ public class JobController {
             return R.ok();
     }
 
-    @GetMapping("/checkjob")
+    @GetMapping("/check")
     public Job checkJob(@RequestParam String jobName) throws TException {
         return jobWebService.checkJob(jobName);
     }
 
-    @PutMapping("/updateplatform")
-    public R updatePlatform(@RequestParam String platformName, @RequestBody String updateJson) throws TException {
-        jobWebService.updatePlatform(platformName, updateJson);
-        return R.ok();
+    @GetMapping("/getresult")
+    public Map<Integer, Map<Integer, String>> getResult(@RequestParam String jobName) throws TException {
+        return jobWebService.getResult(jobName);
     }
 }
