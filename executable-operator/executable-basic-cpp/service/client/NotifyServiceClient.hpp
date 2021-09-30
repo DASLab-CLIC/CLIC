@@ -39,6 +39,7 @@ namespace clic {
                 // 如果参数为空，推断出是本地模式，不会和master建立thrift连接
                 if(_host.empty() || _port == 0) {
                     this -> isDebug = true;
+                    client = nullptr;
                 } else {
                     this -> isDebug = false;
                     
@@ -59,6 +60,7 @@ namespace clic {
                 delete this -> client;
             }
 
+            // 向上游上传信息
             void notify(StageSnapshot snapshot) {
                 if(this -> isDebug) {
                     // log info
