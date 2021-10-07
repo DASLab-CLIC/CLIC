@@ -112,19 +112,20 @@ namespace clic {
 
             DagExecutor(int argc, char* argv[], OperatorFactory &factory, DagHook* _hook) {
                 // 解析参数，分别获取basicArgs和platformArgs
-                initArgs(argc, argv);
+                this -> initArgs(argc, argv);
 
                 // 初始化master的客户端
-                initNotifyClient();
+                this -> initNotifyClient();
 
                 // 读取dag文件，解析生成所有的operator列表
-                initOperators(factory);
+                this -> initOperators(factory);
+                
                 this -> hook = _hook;
             }
 
-            DagExecutor(vector<OperatorBase*> &heads) {
-                this -> headOperators = heads;
-            }
+            // DagExecutor(vector<OperatorBase*> &heads) {
+            //     this -> headOperators = heads;
+            // }
 
             ~DagExecutor() {
                 delete this -> basicArgs;
@@ -140,11 +141,23 @@ namespace clic {
                     this -> hook -> preHandler(platformArgs);
                     StageSnapshot shot;
                     shot.__set_status(StageStatus::type::RUNNING);
+                    shot.__set_message("");
+#ifdef USING_MPI
+#include <mpi.h>
+                    int world_rank;
+                    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+                    if(!world_rank)
+#endif
                     this -> notifyServiceClient -> notify(shot);
 
                     // 执行dag图
                     this -> executeDag();
                     shot.__set_status(StageStatus::type::COMPLETED);
+#ifdef USING_MPI
+                    int world_rank;
+                    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+                    if(!world_rank)
+#endif
                     this -> notifyServiceClient -> notify(shot);
 
                     // 后处理方法

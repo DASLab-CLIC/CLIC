@@ -40,7 +40,7 @@ namespace clic {
             }
 
         public:
-            int stageId;
+            int32_t stageId;
             string jobName;
             bool hasUdf;
             string udfPath;
