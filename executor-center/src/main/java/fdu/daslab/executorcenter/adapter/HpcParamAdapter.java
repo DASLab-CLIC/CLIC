@@ -1,13 +1,9 @@
 package fdu.daslab.executorcenter.adapter;
 
-import fdu.daslab.executorcenter.executor.KubernetesExecutor;
 import fdu.daslab.thrift.base.PlanNode;
 import fdu.daslab.thrift.base.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -71,18 +67,18 @@ public class HpcParamAdapter {
 
     private String submitOperatorWrapper(PlanNode planNode) {
         List<String> command = new ArrayList<>();
-        command.set(0, SCRIPT_PATH);
-        command.set(1, "COMMIT");
-        command.set(2, planNode.operatorInfo.params.get("nodeNum"));
+        command.add(0, SCRIPT_PATH);
+        command.add(1, "COMMIT");
+        command.add(2, planNode.operatorInfo.params.get("nodeNum"));
         return String.join(" ", command);
     }
 
     private String couplingOperatorWrapper(PlanNode planNode) {
         List<String> command = new ArrayList<>();
-        command.set(0, SCRIPT_PATH);
-        command.set(1, "MIX");
-        command.set(2, planNode.operatorInfo.params.get("nodeATM"));
-        command.set(3, planNode.operatorInfo.params.get("nodeOCN"));
+        command.add(0, SCRIPT_PATH);
+        command.add(1, "MIX");
+        command.add(2, planNode.operatorInfo.params.get("nodeATM"));
+        command.add(3, planNode.operatorInfo.params.get("nodeOCN"));
         return String.join(" ", command);
     }
 
@@ -91,11 +87,11 @@ public class HpcParamAdapter {
         String endTime = planNode.operatorInfo.params.get("endTime");
         String startTime = planNode.operatorInfo.params.get("startTime");
 
-        command.set(0, SCRIPT_PATH);
-        command.set(1, "OCEAN");
-        command.set(2, parseNtimes(startTime, endTime));
-        command.set(3, planNode.operatorInfo.params.get("NtileI"));
-        command.set(3, planNode.operatorInfo.params.get("NtileJ"));
+        command.add(0, SCRIPT_PATH);
+        command.add(1, "OCEAN");
+        command.add(2, parseNtimes(startTime, endTime));
+        command.add(3, planNode.operatorInfo.params.get("NtileI"));
+        command.add(4, planNode.operatorInfo.params.get("NtileJ"));
         return String.join(" ", command);
     }
 
@@ -104,11 +100,11 @@ public class HpcParamAdapter {
         String endTime = planNode.operatorInfo.params.get("endTime");
         String startTime = planNode.operatorInfo.params.get("startTime");
 
-        command.set(0, SCRIPT_PATH);
-        command.set(1, "WRF");
-        command.set(2, parseRunHour(startTime, endTime));
-        command.set(3, planNode.operatorInfo.params.get("nproc_x"));
-        command.set(4, planNode.operatorInfo.params.get("nproc_y"));
+        command.add(0, SCRIPT_PATH);
+        command.add(1, "WRF");
+        command.add(2, parseRunHour(startTime, endTime));
+        command.add(3, planNode.operatorInfo.params.get("nproc_x"));
+        command.add(4, planNode.operatorInfo.params.get("nproc_y"));
         return String.join(" ", command);
     }
 

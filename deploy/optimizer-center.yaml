@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: optimizer-template
-          image: edwardtang/optimizer-center:micro-service-rebuild
+          image: edwardtang/optimizer-center:latest
           imagePullPolicy: Always
           command:
             - /bin/sh

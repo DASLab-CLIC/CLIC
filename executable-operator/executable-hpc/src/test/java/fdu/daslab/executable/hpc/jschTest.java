@@ -28,6 +28,16 @@
 //    private final static String SCRIPT_PATH = "/es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled/clic.bash";
 //
 //
+//    @Test
+//    public void arraySetTest() {
+//        List<String> command = new ArrayList<>();
+//        command.add(0, "SCRIPT_PATH");
+//        command.add(1, "MIX");
+//        command.add(0, "STH");
+//        System.out.println(command);;
+//
+//    }
+//
 //
 //    @Test
 //    public void hpcWrapperTest() throws ParseException {
