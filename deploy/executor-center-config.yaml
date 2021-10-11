@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: executor-configmap
 data:
+  # 在本地运行的时候这部分配置在在application.yaml中
   application-pro.yaml: |
     thrift:
       port: 6666
@@ -26,6 +27,5 @@ data:
       mpi:
         create: "/apis/kubeflow.org/v1/namespaces/mpi-operator/MPIJob"
     hpc:
-      host: "10.106.10.71"
+      host: "192.168.1.2"
       port: 22
-#    志伟学长直接把整个配置文件当做一个config了，在本地运行的时候这部分配置在在application.yaml中

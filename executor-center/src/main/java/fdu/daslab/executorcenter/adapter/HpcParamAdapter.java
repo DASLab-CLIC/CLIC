@@ -18,6 +18,9 @@ import java.util.*;
 public class HpcParamAdapter {
 
     private final static String SCRIPT_PATH = "/es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled/clic.bash";
+    private final static List<String> submitCommand = new ArrayList<>(Arrays.asList("csub", "-n", "-cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm"));
+
+
     private final Map<String, Integer> globalSetMap = new HashMap<String, Integer>(){{
         put("wrfOperator", 2);
         put("oceanOperator", 3);
@@ -49,7 +52,6 @@ public class HpcParamAdapter {
     }
 
     private String switchStrategy(PlanNode planNode) throws ParseException {
-
         switch (planNode.operatorInfo.name){
             case "wrfOperator":
                 return wrfOperatorWrapper(planNode);
@@ -62,15 +64,22 @@ public class HpcParamAdapter {
             default:
                 throw new IllegalArgumentException("HPC operator type error, please examine the operator name");
         }
-
     }
 
     private String submitOperatorWrapper(PlanNode planNode) {
-        List<String> command = new ArrayList<>();
-        command.add(0, SCRIPT_PATH);
-        command.add(1, "COMMIT");
-        command.add(2, planNode.operatorInfo.params.get("nodeNum"));
-        return String.join(" ", command);
+        List<String> commandList = new ArrayList<>();
+
+        String nodeNum = planNode.operatorInfo.params.get("nodeNum");
+
+        commandList.add(0, SCRIPT_PATH);
+        commandList.add(1, "COMMIT");
+        commandList.add(2, nodeNum);
+        String firstCommand = String.join(" ", commandList);
+
+        List<String> tempCommandList = submitCommand;
+        tempCommandList.add(2, nodeNum);
+        String secondCommand = String.join(" ", tempCommandList);
+        return firstCommand + ";" + secondCommand;
     }
 
     private String couplingOperatorWrapper(PlanNode planNode) {
