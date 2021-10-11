@@ -65,4 +65,32 @@ public class OperatorRepository {
     public Operator findOperatorInfo(String operatorName) {
         return operators.get(operatorName);
     }
+
+    public void setOperatorInfo(String operatorName, Operator operator){
+        Operator oldOperator = operators.get(operatorName);
+        if(operator.getName() != null) oldOperator.setName(operator.getName());
+        if(operator.getOperatorType() != null) oldOperator.setOperatorType(operator.getOperatorType());
+        if(operator.getComputeComplex() != null) oldOperator.setComputeComplex(operator.getComputeComplex());
+        if(operator.getOperatorStructure() != null) oldOperator.setOperatorStructure(operator.getOperatorStructure());
+        if(operator.getPossiblePlatforms().size() != 0){
+            List<String> possiblePlatforms = oldOperator.getPossiblePlatforms();
+            possiblePlatforms.clear();
+            possiblePlatforms.addAll(operator.getPossiblePlatforms());
+        }
+        if(operator.getInputKeys().size() != 0){
+            List<String> inputKeys = oldOperator.getInputKeys();
+            inputKeys.clear();
+            inputKeys.addAll(operator.getInputKeys());
+        }
+        if(operator.getOutputKeys().size() != 0){
+            List<String> outputKeys = oldOperator.getOutputKeys();
+            outputKeys.clear();
+            outputKeys.addAll(operator.getOutputKeys());
+        }
+        if(operator.getParams().size() != 0){
+            for(Map.Entry<String, String> entry : operator.getParams().entrySet()){
+                oldOperator.getParams().put(entry.getKey(), entry.getValue());
+            }
+        }
+    }
 }

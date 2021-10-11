@@ -1,0 +1,6 @@
+{
+  "name": "sink",
+  "possiblePlatforms": ["flink","spark"],
+  "OperatorStructure": "SINK",
+  "params": {"udfName": "/udf/"}
+}

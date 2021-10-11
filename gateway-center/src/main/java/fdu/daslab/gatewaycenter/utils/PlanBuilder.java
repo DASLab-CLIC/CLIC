@@ -25,6 +25,9 @@ public class PlanBuilder {
     public Plan parseJson(String jsonString){
         Plan plan = new Plan();
         JSONObject planObject = new JSONObject(jsonString);
+
+        // 因为前端传过来的json文件（如pytorchJobPlan.json）对Plan的结构描述 与 后端定义的Plan结构（idl/base.thrift）不同，
+        // 所以需要自己编写函数来做进一步解析
         setPlanParamsFromJsonArray(plan, planObject.getJSONArray("planParams"));
         JSONArray optArray = planObject.getJSONArray("operators");
 

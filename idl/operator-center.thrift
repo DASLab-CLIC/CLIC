@@ -14,4 +14,5 @@ service OperatorCenter {
     // operator相关接口
     void addOperator(1: base.Operator operator) // 新增一个operator
     base.Operator findOperatorInfo(1: string operatorName, 2: string platformName) // 查询算子的信息
+    void setOperatorInfo(1: string operatorName, 2: base.Operator operator)
 }

@@ -53,4 +53,9 @@ public class OperatorHandler implements OperatorCenter.Iface {
     public Operator findOperatorInfo(String operatorName, String platformName) throws TException {
         return operatorRepository.findOperatorInfo(operatorName);
     }
+
+    @Override
+    public void setOperatorInfo(String operatorName, Operator operator) throws TException {
+        operatorRepository.setOperatorInfo(operatorName, operator);
+    }
 }
