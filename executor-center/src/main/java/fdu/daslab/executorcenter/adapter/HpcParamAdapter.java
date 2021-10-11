@@ -18,7 +18,7 @@ import java.util.*;
 public class HpcParamAdapter {
 
     private final static String SCRIPT_PATH = "/es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled/clic.bash";
-    private final static List<String> submitCommand = new ArrayList<>(Arrays.asList("csub", "-n", "-cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm"));
+    private final static List<String> submitCommand = new ArrayList<>(Arrays.asList("/opt/skyformai/bin/csub", "-n", "-cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm"));
 
 
     private final Map<String, Integer> globalSetMap = new HashMap<String, Integer>(){{
