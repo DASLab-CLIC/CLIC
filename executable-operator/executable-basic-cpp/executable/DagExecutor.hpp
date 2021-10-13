@@ -142,6 +142,7 @@ namespace clic {
                     StageSnapshot shot;
                     shot.__set_status(StageStatus::type::RUNNING);
                     shot.__set_message("");
+// 使用MPI平台时的特殊处理，下同
 #ifdef USING_MPI
 #include <mpi.h>
                     int world_rank;
@@ -149,12 +150,16 @@ namespace clic {
                     if(!world_rank)
 #endif
                     this -> notifyServiceClient -> notify(shot);
-
+#ifdef USING_MPI
+                    // 等待#0进程完成状态更新
+                    MPI_Barrier(MPI_COMM_WORLD);
+#endif
                     // 执行dag图
                     this -> executeDag();
                     shot.__set_status(StageStatus::type::COMPLETED);
 #ifdef USING_MPI
-                    int world_rank;
+                    // 等待所有进程完成任务后再更新状态
+                    MPI_Barrier(MPI_COMM_WORLD);
                     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
                     if(!world_rank)
 #endif

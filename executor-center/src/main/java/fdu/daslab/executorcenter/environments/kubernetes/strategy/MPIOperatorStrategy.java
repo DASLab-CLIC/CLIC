@@ -52,9 +52,9 @@ public class MPIOperatorStrategy implements KubernetesResourceStrategy {
                 .replace("$nfsServer$", platformInfo.params.get("nfsServer"));
 
         // 打印信息用于debug
-        logger.info("------ MPI job ------");
-        logger.info("Create MPI Url: " + createMPIUrl);
-        logger.info("Yaml:\n" + mpiYaml);
+//        logger.info("------ MPI job ------");
+//        logger.info("Create MPI Url: " + createMPIUrl);
+//        logger.info("Yaml:\n" + mpiYaml);
         HttpClient httpClient = kubernetesRestClient.getIgnoreHttpClient();
         httpClient.execute(kubernetesRestClient.getDefaultHttpPost(createMPIUrl, yaml.load(mpiYaml)));
     }
