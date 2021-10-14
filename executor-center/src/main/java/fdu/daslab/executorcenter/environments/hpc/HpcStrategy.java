@@ -27,12 +27,12 @@ public class HpcStrategy {
     private static final int SESSION_TIMEOUT = 10000;
     private static final int CHANNEL_TIMEOUT = 5000;
 
-    // TODO：改为手动传入，不然有密码暴露的风险
+    // 手动输入账号密码
     @Value("${hpc.host}")
-    private String host; // 访问的token
+    private String host;
 
 //    @Value("${hpc.username}")
-//    private String username;    // 集群的APIServer
+//    private String username;
 //
 //    @Value("${hpc.password}")
 //    private String password;

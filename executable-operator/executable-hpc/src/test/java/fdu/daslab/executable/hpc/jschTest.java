@@ -28,6 +28,16 @@
 //    private final static String SCRIPT_PATH = "/es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled/clic.bash";
 //
 //
+//    @Test
+//    public void arraySetTest() {
+//        List<String> command = new ArrayList<>();
+//        command.add(0, "SCRIPT_PATH");
+//        command.add(1, "MIX");
+//        command.add(0, "STH");
+//        System.out.println(command);;
+//
+//    }
+//
 //
 //    @Test
 //    public void hpcWrapperTest() throws ParseException {
@@ -77,8 +87,8 @@
 //
 //            // run a shell script
 ////            channelExec.setCommand("echo $PWD; source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
-//            channelExec.setCommand("source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/cjobs");
-////            channelExec.setCommand(SCRIPT_PATH + " WRF 3 2 2");
+////            channelExec.setCommand("source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/cjobs");
+//            channelExec.setCommand(SCRIPT_PATH + " WRF 3 2 2;" + SCRIPT_PATH + " MIX 2 2");
 //
 //
 //            // display errors to System.err
