@@ -1,4 +1,4 @@
-//package fdu.daslab.executable.hpc;
+//package fdu.daslab.executorcenter.service;
 //
 //import org.junit.Test;
 //import com.jcraft.jsch.*;
@@ -26,7 +26,23 @@
 //    private static final int SESSION_TIMEOUT = 10000;
 //    private static final int CHANNEL_TIMEOUT = 5000;
 //    private final static String SCRIPT_PATH = "/es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled/clic.bash";
+//    private final static List<String> submitCommand = new ArrayList<>(Arrays.asList("/opt/skyformai/bin/csub", "-n", "-cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm"));
 //
+//    public String commandTest(){
+//        List<String> commandList = new ArrayList<>();
+//
+//        String nodeNum = "2";
+//
+//        commandList.add(0, SCRIPT_PATH);
+//        commandList.add(1, "COMMIT");
+//        commandList.add(2, nodeNum);
+//        String firstCommand = String.join(" ", commandList);
+//
+//        List<String> tempCommandList = submitCommand;
+//        tempCommandList.add(2, nodeNum);
+//        String secondCommand = String.join(" ", tempCommandList);
+//        return secondCommand;
+//    }
 //
 //    @Test
 //    public void arraySetTest() {
@@ -86,9 +102,10 @@
 //            ChannelExec channelExec = (ChannelExec) jschSession.openChannel("exec");
 //
 //            // run a shell script
-////            channelExec.setCommand("echo $PWD; source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
-////            channelExec.setCommand("source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/cjobs");
-//            channelExec.setCommand(SCRIPT_PATH + " WRF 3 2 2;" + SCRIPT_PATH + " MIX 2 2");
+//            channelExec.setCommand("echo $PWD; source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
+//            System.out.println(commandTest());
+////            channelExec.setCommand("/opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
+////            channelExec.setCommand(SCRIPT_PATH + " WRF 3 2 2;" + SCRIPT_PATH + " MIX 2 2");
 //
 //
 //            // display errors to System.err
