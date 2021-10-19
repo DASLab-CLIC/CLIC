@@ -1,5 +1,6 @@
 package fdu.daslab.gatewaycenter.controller;
 
+import fdu.daslab.gatewaycenter.constant.ErrorCode;
 import fdu.daslab.gatewaycenter.service.JobWebService;
 import fdu.daslab.gatewaycenter.utils.api.R;
 import fdu.daslab.thrift.base.Job;
@@ -33,12 +34,23 @@ public class JobController {
     }
 
     @GetMapping("/check")
-    public Job checkJob(@RequestParam String jobName) throws TException {
-        return jobWebService.checkJob(jobName);
+    public R checkJob(@RequestParam String jobName){
+        try {
+            Job job = jobWebService.checkJob(jobName);
+            return R.ok(job);
+        } catch (Exception e){
+            return R.error(ErrorCode.QUERY_FAIL, ErrorCode.QUERY_FAIL_MSG);
+        }
+
     }
 
     @GetMapping("/getresult")
-    public Map<Integer, Map<Integer, String>> getResult(@RequestParam String jobName) throws TException {
-        return jobWebService.getResult(jobName);
+    public R getResult(@RequestParam String jobName) throws TException {
+        try {
+            Map<Integer, Map<Integer, String>> result = jobWebService.getResult(jobName);
+            return R.ok(result);
+        } catch (Exception e){
+            return R.error(ErrorCode.QUERY_FAIL, ErrorCode.QUERY_FAIL_MSG);
+        }
     }
 }

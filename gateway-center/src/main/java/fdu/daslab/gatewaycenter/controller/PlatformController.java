@@ -1,5 +1,6 @@
 package fdu.daslab.gatewaycenter.controller;
 
+import fdu.daslab.gatewaycenter.constant.ErrorCode;
 import fdu.daslab.gatewaycenter.service.PlatformWebService;
 import fdu.daslab.gatewaycenter.utils.api.R;
 import org.apache.thrift.TException;
@@ -21,7 +22,11 @@ public class PlatformController {
 
     @PutMapping("/updateinfo")
     public R updatePlatform(@RequestParam String platformName, @RequestBody String updateJson) throws TException {
-        platformWebService.updatePlatform(platformName, updateJson);
-        return R.ok();
+        try {
+            platformWebService.updatePlatform(platformName, updateJson);
+            return R.ok();
+        } catch (Exception e){
+            return R.error(ErrorCode.UPDATE_FAIL, ErrorCode.UPDATE_FAIL_MSG);
+        }
     }
 }

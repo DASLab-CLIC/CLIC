@@ -1,5 +1,6 @@
 package fdu.daslab.gatewaycenter.controller;
 
+import fdu.daslab.gatewaycenter.constant.ErrorCode;
 import fdu.daslab.gatewaycenter.service.OperatorWebService;
 import fdu.daslab.gatewaycenter.utils.api.R;
 import org.apache.thrift.TException;
@@ -20,8 +21,12 @@ public class OperatorController {
 
     @PutMapping("/updateinfo")
     public R updateOperator(@RequestParam String operatorName, @RequestBody String updateJson) throws TException{
-        operatorWebService.updateOperator(operatorName, updateJson);
-        return R.ok();
+        try {
+            operatorWebService.updateOperator(operatorName, updateJson);
+            return R.ok();
+        } catch (Exception e){
+            return R.error(ErrorCode.UPDATE_FAIL, ErrorCode.UPDATE_FAIL_MSG);
+        }
     }
 
 }
