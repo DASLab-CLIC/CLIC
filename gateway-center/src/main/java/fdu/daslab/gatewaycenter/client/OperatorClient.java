@@ -18,7 +18,7 @@ public class OperatorClient extends ThriftClient<OperatorCenter.Client> {
     @Value("${thrift.operator.host}")
     private String host;
 
-    @Value("{$thrift.operator.port}")
+    @Value("${thrift.operator.port}")
     private int port;
 
 

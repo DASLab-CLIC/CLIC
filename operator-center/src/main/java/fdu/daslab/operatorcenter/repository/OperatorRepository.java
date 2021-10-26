@@ -2,6 +2,7 @@ package fdu.daslab.operatorcenter.repository;
 
 import fdu.daslab.operatorcenter.init.OperatorInit;
 import fdu.daslab.operatorcenter.init.PlatformInit;
+import fdu.daslab.operatorcenter.utils.UpdateUtil;
 import fdu.daslab.thrift.base.Operator;
 import fdu.daslab.thrift.base.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,13 @@ public class OperatorRepository {
         return platforms;
     }
 
-    public void setPlatformInfo(String platformName, Platform platform){
-        Platform oldPlatform = platforms.get(platformName);
+    public void setPlatformInfo(Platform oldPlatform, Platform platform){
+//        UpdateUtil.copyNullProperties(platform, oldPlatform);
+//        try {
+//            platforms.put(oldPlatform.getName(), oldPlatform)
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
         if(platform.getDefaultImage() != null) oldPlatform.setDefaultImage(platform.getDefaultImage());
         oldPlatform.setUseOperator(platform.isUseOperator());
         if (platform.getExecCommand() != null) oldPlatform.setExecCommand(platform.getExecCommand());
@@ -56,6 +62,7 @@ public class OperatorRepository {
                 oldPlatform.getParams().put(entry.getKey(), entry.getValue());
             }
         }
+        platforms.put(oldPlatform.getName(), oldPlatform);
     }
 
     public void addOperator(Operator operator) {
@@ -92,5 +99,6 @@ public class OperatorRepository {
                 oldOperator.getParams().put(entry.getKey(), entry.getValue());
             }
         }
+        operators.put(oldOperator.getName(), oldOperator);
     }
 }

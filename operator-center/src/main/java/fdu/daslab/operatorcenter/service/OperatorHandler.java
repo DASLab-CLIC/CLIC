@@ -40,7 +40,8 @@ public class OperatorHandler implements OperatorCenter.Iface {
 
     @Override
     public void setPlatformInfo(String platformName, Platform platform) throws TException {
-        operatorRepository.setPlatformInfo(platformName, platform);
+        Platform platformInfo = operatorRepository.findPlatformInfo(platformName);
+        operatorRepository.setPlatformInfo(platformInfo, platform);
     }
 
 

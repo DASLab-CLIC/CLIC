@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class LocalJars {
 
-    @Value("${mvnDir}")
+    @Value("${localMvnDir}")
     private String mvnDir;
 
     private final Map<String, String> platforms = new HashMap<String, String>() {{

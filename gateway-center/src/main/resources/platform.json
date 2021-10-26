@@ -1,0 +1,6 @@
+{
+  "name": "spark",
+  "defaultImage": "spark_v1",
+  "useOperator": true,
+  "params": {"conf": "/config.yaml"}
+}

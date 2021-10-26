@@ -26,6 +26,7 @@ public class PlatformController {
             platformWebService.updatePlatform(platformName, updateJson);
             return R.ok();
         } catch (Exception e){
+            e.printStackTrace();
             return R.error(ErrorCode.UPDATE_FAIL, ErrorCode.UPDATE_FAIL_MSG);
         }
     }
