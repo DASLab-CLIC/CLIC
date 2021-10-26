@@ -1,5 +1,6 @@
-package fdu.daslab.executorcenter.kubernetes;
+package fdu.daslab.executorcenter.environments.kubernetes;
 
+import fdu.daslab.executorcenter.environments.kubernetes.strategy.KubernetesResourceStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

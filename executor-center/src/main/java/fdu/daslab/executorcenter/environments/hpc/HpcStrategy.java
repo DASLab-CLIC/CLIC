@@ -1,56 +1,66 @@
-package fdu.daslab.executable.hpc.operators;
+package fdu.daslab.executorcenter.environments.hpc;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import fdu.daslab.executable.basic.model.OperatorBase;
-import fdu.daslab.executable.basic.model.ParamsModel;
-import fdu.daslab.executable.basic.model.ResultModel;
+import fdu.daslab.executorcenter.executor.KubernetesExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * @author zjchen
- * @time 2021/9/6 10:25 上午
- * @description username、password、remote_host、remote_port(optional)、command
+ * @time 2021/9/17 10:24 上午
+ * @description
  */
 
-public class MpiRun extends OperatorBase<Stream<List<String>>, Stream<List<String>>> {
-    Logger logger = LoggerFactory.getLogger(MpiRun.class);
+@Component
+public class HpcStrategy {
+
+    private Logger logger = LoggerFactory.getLogger(KubernetesExecutor.class);
 
     private static final int SESSION_TIMEOUT = 10000;
     private static final int CHANNEL_TIMEOUT = 5000;
 
-    public MpiRun(String id, List<String> inputKeys, List<String> outputKeys, Map<String, String> params) {
-        super("MpiRun", id, inputKeys, outputKeys, params);
-    }
+    // 手动输入账号密码
+    @Value("${hpc.host}")
+    private String host;
 
-    @Override
-    public void execute(ParamsModel inputArgs, ResultModel<Stream<List<String>>> result) {
+//    @Value("${hpc.username}")
+//    private String username;
+//
+//    @Value("${hpc.password}")
+//    private String password;
+
+    @Value("${hpc.port}")
+    private int port;
+
+
+    public void createJob(String command, String username, String password) throws JSchException {
         Session jschSession = null;
         try {
             JSch jsch = new JSch();
-            jschSession = jsch.getSession(this.params.get("username"),
-                    this.params.get("remote_host"),
-                    Integer.parseInt(this.params.getOrDefault("remote_port", "22")));
+//            jsch.setKnownHosts("/Users/zjchen/.ssh/known_hosts");
+            jschSession = jsch.getSession(username, host, port);
             jschSession.setConfig("StrictHostKeyChecking", "no");
-            jschSession.setPassword(this.params.get("password"));
+            // not recommend, uses jsch.setKnownHosts
+            //jschSession.setConfig("StrictHostKeyChecking", "no");
+
+            // authenticate using password
+            jschSession.setPassword(password);
 
             // 10 seconds timeout session
             jschSession.connect(SESSION_TIMEOUT);
-
             ChannelExec channelExec = (ChannelExec) jschSession.openChannel("exec");
 
             // run a shell script
-            channelExec.setCommand(this.params.get("command"));
-
+            channelExec.setCommand(command);
+            //            channelExec.setCommand("source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; cjobs");
             // display errors to System.err
             channelExec.setErrStream(System.err);
 
@@ -58,30 +68,31 @@ public class MpiRun extends OperatorBase<Stream<List<String>>, Stream<List<Strin
 
             // 5 seconds timeout channel
             channelExec.connect(CHANNEL_TIMEOUT);
+            // read the result from remote server
             byte[] tmp = new byte[1024];
             while (true) {
                 while (in.available() > 0) {
                     int i = in.read(tmp, 0, 1024);
                     if (i < 0) break;
-                    System.out.print(new String(tmp, 0, i));
+                    logger.info(new String(tmp, 0, i));
                 }
                 if (channelExec.isClosed()) {
                     if (in.available() > 0) continue;
-                    System.out.println("exit-status: "
+                    logger.info("exit-status: "
                             + channelExec.getExitStatus());
                     break;
                 }
                 try {
                     Thread.sleep(1000);
                 } catch (Exception ee) {
+                    logger.error(ee.getMessage());
                 }
             }
 
             channelExec.disconnect();
-
         } catch (JSchException | IOException e) {
 
-            e.printStackTrace();
+            logger.error(e.getMessage());
 
         } finally {
             if (jschSession != null) {

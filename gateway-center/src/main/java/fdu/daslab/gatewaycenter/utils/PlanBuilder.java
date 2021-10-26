@@ -68,6 +68,7 @@ public class PlanBuilder {
         // 解析operator
         Operator operator = new Operator();
         List<String> inputKeys = new ArrayList<>();
+        List<String> outputKeys = new ArrayList<>();
         HashMap<String, String> paramMap = new HashMap<>();
 
 
@@ -85,10 +86,12 @@ public class PlanBuilder {
                 inputKeys.add(inputKey.getString("name"));
             }
         }
-        List<String> outputKeys = nodeInfo.getJSONArray("outputKeys").toList().stream().
-                map(x->(String)x).
-                collect(Collectors.toList());
 
+        if (nodeInfo.has("outputKeys")) {
+            outputKeys = nodeInfo.getJSONArray("outputKeys").toList().stream().
+                    map(x -> (String) x).
+                    collect(Collectors.toList());
+        }
 
         operator.setName(operatorName);
         operator.setParams(paramMap);

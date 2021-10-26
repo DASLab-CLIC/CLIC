@@ -1,4 +1,4 @@
-package fdu.daslab.executorcenter.kubernetes;
+package fdu.daslab.executorcenter.environments.kubernetes.strategy;
 
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;

@@ -1,7 +1,6 @@
-package fdu.daslab.executorcenter.kubernetes.strategy;
+package fdu.daslab.executorcenter.environments.kubernetes.strategy;
 
-import fdu.daslab.executorcenter.kubernetes.KubernetesResourceStrategy;
-import fdu.daslab.executorcenter.kubernetes.KubernetesRestClient;
+import fdu.daslab.executorcenter.environments.kubernetes.KubernetesRestClient;
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +37,7 @@ public class SparkOperatorStrategy implements KubernetesResourceStrategy {
         final InputStream inputStream = new ClassPathResource("templates/spark-template.yaml").getInputStream();
         String templateYaml = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
         String sparkYaml = templateYaml.replace("$name$", kubernetesRestClient.generateKubernetesName(stage))
-                .replace("$image$", platformInfo.defaultImage)
+                .replace("$image$", stage.others.getOrDefault("sparkImage", platformInfo.defaultImage))
                 .replace("$mainClass$", platformInfo.params.get("mainClass"))
                 .replace("$mainJar$", platformInfo.params.get("mainJar"))
                 .replace("$imagePolicy$", stage.others.getOrDefault("dev-imagePolicy", "IfNotPresent"))

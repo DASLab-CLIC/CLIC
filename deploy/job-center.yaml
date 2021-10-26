@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: job-template
-          image: edwardtang/job-center:micro-service-rebuild
+          image: edwardtang/job-center:latest
           imagePullPolicy: Always
           command:
             - /bin/sh

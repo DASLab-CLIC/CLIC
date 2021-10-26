@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: operator-template
-          image: edwardtang/operator-center:micro-service-rebuild
+          image: edwardtang/operator-center:latest
           imagePullPolicy: Always
           command:
             - /bin/sh

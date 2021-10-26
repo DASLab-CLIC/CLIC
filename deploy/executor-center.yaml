@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: executor-template
-          image: edwardtang/executor-center:micro-service-rebuild
+          image: edwardtang/executor-center:latest
           imagePullPolicy: Always
           command:
             - /bin/sh

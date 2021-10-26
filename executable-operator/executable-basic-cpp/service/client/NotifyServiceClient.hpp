@@ -30,15 +30,16 @@ namespace clic {
             std::shared_ptr<TSocket> socket;
             std::shared_ptr<TTransport> transport;
             std::shared_ptr<TProtocol> protocol;
-            int stageId;        // 当前client的ID标识
+            int32_t stageId;        // 当前client的ID标识
             string jobName;     // 当前的jobName
             bool isDebug;       // 标记是否是debug模式，不尝试和master连接
 
         public:
-            Client(int _stageId, string _jobName, string _host, int _port) {
+            Client(int32_t _stageId, string _jobName, string _host, int _port) {
                 // 如果参数为空，推断出是本地模式，不会和master建立thrift连接
                 if(_host.empty() || _port == 0) {
                     this -> isDebug = true;
+                    client = nullptr;
                 } else {
                     this -> isDebug = false;
                     
@@ -53,12 +54,10 @@ namespace clic {
             }
 
             ~Client() {
-                if(!this -> isDebug) {
-                    this -> transport -> close();
-                }
                 delete this -> client;
             }
 
+            // 向上游上传信息
             void notify(StageSnapshot snapshot) {
                 if(this -> isDebug) {
                     // log info
@@ -70,7 +69,9 @@ namespace clic {
                     this -> client -> postStatus(this -> jobName, this -> stageId, snapshot);
                 } catch(const char* msg) {
                     std::cerr << msg << std::endl;
+                    this -> transport -> close();
                 }
+                this -> transport -> close();
             }
     };
 }

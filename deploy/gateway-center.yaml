@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gateway-template
-          image: edwardtang/gateway-center:micro-service-rebuild
+          image: edwardtang/gateway-center:latest
           imagePullPolicy: Always
           command:
             - /bin/sh
