@@ -37,7 +37,6 @@ body:
         - "Monitoring & Debugging"
         - "Dashboard"
         - "scheduler"
-        - "scheduler"
     validations:
       required: true
 
