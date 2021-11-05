@@ -9,4 +9,5 @@ service JobService {
     base.Job findJob(1: string jobName) // 查询job目前的状态
     void updateJob(1: base.Job job) // 更新job状态
     void updateStage(1: base.Stage stage) // 更新stage
+    map<i32,map<i32, string>> getResult(1: string jobName) // 获取中间结果和最终结果
 }

@@ -2,12 +2,12 @@ thrift:
   job:
     host: localhost
     port: 3000
-  operator:
-    host: localhost
-    port: 4000
   optimizer:
     host: localhost
     port: 5000
   scheduler:
     host: localhost
     port: 6000
+  operator:
+    host: localhost
+    port: 4000

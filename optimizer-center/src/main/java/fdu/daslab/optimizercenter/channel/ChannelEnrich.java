@@ -69,7 +69,7 @@ public class ChannelEnrich {
         channelSource.setInputNodeId(new ArrayList<>(Collections.singletonList(channelSink.nodeId)));
         channelSink.setOutputNodeId(new ArrayList<>(Collections.singletonList(channelSource.nodeId)));
 
-        // 实例化source或者sink算子
+        // 实例化source或者sink算子, 指定了Channel结点的outputPath
         channelInstantiate.instantiateSourceSink(channelSource, channelSink);
 
         channelNodes.put(channelSource.nodeId, channelSource);

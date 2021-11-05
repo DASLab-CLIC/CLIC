@@ -38,6 +38,12 @@ public class OperatorHandler implements OperatorCenter.Iface {
         return operatorRepository.listPlatforms();
     }
 
+    @Override
+    public void setPlatformInfo(String platformName, Platform platform) throws TException {
+        Platform platformInfo = operatorRepository.findPlatformInfo(platformName);
+        operatorRepository.setPlatformInfo(platformInfo, platform);
+    }
+
 
     @Override
     public void addOperator(Operator operator) throws TException {
@@ -47,5 +53,10 @@ public class OperatorHandler implements OperatorCenter.Iface {
     @Override
     public Operator findOperatorInfo(String operatorName, String platformName) throws TException {
         return operatorRepository.findOperatorInfo(operatorName);
+    }
+
+    @Override
+    public void setOperatorInfo(String operatorName, Operator operator) throws TException {
+        operatorRepository.setOperatorInfo(operatorName, operator);
     }
 }

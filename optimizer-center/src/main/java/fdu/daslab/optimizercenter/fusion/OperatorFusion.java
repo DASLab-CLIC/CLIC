@@ -23,19 +23,21 @@ public class OperatorFusion {
 
     // 创建一个新的stage
     // 从某一个节点开始，遍历，直到遇到source节点或者sink节点
-    private Stage addNewStageFromSource(Map<Integer, PlanNode> nodeInfo, PlanNode sourcePlan,
+    private Stage addNewStageFromSource(Map<Integer, PlanNode> nodeInfo, PlanNode PlanNode,
                                         Set<Integer> visited, Map<Integer, Integer> channelToStage) {
         Integer stageId = new Random().nextInt();
 
         Queue<Integer> Q = new LinkedList<>();
-        Q.add(sourcePlan.nodeId);
+        Q.add(PlanNode.nodeId);
 
         List<Integer> sourceId = new ArrayList<>();
+        List<Integer> sinkId = new ArrayList<>();
         Map<Integer, PlanNode> subPlanNodes = new HashMap<>();
 
         while (!Q.isEmpty()) {
             Integer curNodeId = Q.poll();
             PlanNode curNode = nodeInfo.get(curNodeId);
+            // BUG: 应该入队前就标记visited?
             visited.add(curNodeId);
             // 添加当前节点
             subPlanNodes.put(curNodeId, curNode);
@@ -58,15 +60,19 @@ public class OperatorFusion {
                         Q.add(postNodeId);
                     }
                 }
+            } else{
+                // 否则，添加sink结点
+                sinkId.add(curNodeId);
             }
 
             // 保存channel节点
+            // channel节点：两个不同stage之间对接的两个结点
             if (channelEnrich.isChannel(curNode)){
-                // 保存channel节点到stageId到映射
+                // 保存channel节点到stageId的映射
                 channelToStage.put(curNodeId, stageId);
             }
         }
-        Plan subPlan = new Plan(subPlanNodes, sourceId, new HashMap<>());
+        Plan subPlan = new Plan(subPlanNodes, sourceId, sinkId, new HashMap<>());
         Stage stage = new Stage();
         stage.setStageId(stageId);
         stage.setPlanInfo(subPlan);
@@ -81,7 +87,7 @@ public class OperatorFusion {
         channelToStage.forEach((channelId, stageId) -> {
             Stage stage = stages.get(stageId);
             PlanNode channelNode = nodeInfo.get(channelId);
-            // 如果channel节点是source节点，则需要将当前stage的前驱指向channel节点所在前驱的stage
+            // 如果channel节点是source节点，则需要将当前stage的前驱指向channel节点的前驱结点所在的stage
             if (channelEnrich.isSource(channelNode)) {
                 new ArrayList<>(channelNode.inputNodeId).forEach(inputId -> {
                     stage.inputStageId.add(channelToStage.get(inputId));
@@ -89,7 +95,7 @@ public class OperatorFusion {
                     channelNode.inputNodeId.remove(inputId);
                 });
             } else {
-                // 否则，则需要将当前stage的后继指向channel节点所在后继的stage
+                // 否则，则需要将当前stage的后继指向channel节点的后继结点所在的stage
                 new ArrayList<>(channelNode.outputNodeId).forEach(outputId -> {
                     stage.outputStageId.add(channelToStage.get(outputId));
                     channelNode.outputNodeId.remove(outputId);
@@ -123,9 +129,11 @@ public class OperatorFusion {
         // 以channel_source 为界，切分不同的stage
         Map<Integer, Stage> stages = new HashMap<>();
 
-        nodeInfo.forEach((sourceId, sourcePlan) -> {
-            if (!visited.contains(sourceId)) {
-                Stage stage = addNewStageFromSource(nodeInfo, sourcePlan, visited, channelToStage);
+        // sourceId -> nodeId? sourcePlanNode -> planNode?
+        nodeInfo.forEach((nodeId, planNode) -> {
+            if (!visited.contains(nodeId)) {
+                // addNewStageFromSource -> buildStageFromPlan?
+                Stage stage = addNewStageFromSource(nodeInfo, planNode, visited, channelToStage);
                 stages.put(stage.getStageId(), stage);
             }
         });

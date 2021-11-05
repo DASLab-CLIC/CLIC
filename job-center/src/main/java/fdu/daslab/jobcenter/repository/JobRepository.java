@@ -1,12 +1,9 @@
 package fdu.daslab.jobcenter.repository;
 
-import fdu.daslab.thrift.base.ExecutionStatus;
-import fdu.daslab.thrift.base.Job;
-import fdu.daslab.thrift.base.Stage;
+import fdu.daslab.thrift.base.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  对Job信息进行CRUD，目前先使用内存存储，为了开发方便
@@ -62,5 +59,54 @@ public class JobRepository {
             }
         }
         saveJob(job);
+    }
+
+
+    /**
+     * 获取Job中各stages的结果
+     * @param jobName 要查看结果的job名称
+     * @return 每个stage的每个sinkNode对应的outputPath:
+     * stageId -> ( sinkId -> outputPath )
+     *
+     */
+    public Map<Integer, Map<Integer, String>> getResult(String jobName) {
+        Job job = jobs.get(jobName);
+        Map<Integer, Stage> subPlans = job.getSubplans();
+        List<Integer> sourceStages = job.getSourceStages();
+        Map<Integer, Map<Integer, String>> results = new HashMap<>();
+        Set<Integer> visited = new HashSet<>();
+
+        Queue<Integer> Q = new LinkedList<>();
+        for (Integer stageId: sourceStages){
+            visited.add(stageId);
+            Q.add(stageId);
+        }
+
+        while(!Q.isEmpty()){
+            Integer curStageId = Q.poll();
+            Stage curStage = subPlans.get(curStageId);
+            Plan planInfo = curStage.getPlanInfo();
+            Map<Integer, PlanNode> nodes = planInfo.getNodes();
+            Map<Integer, String> sinkIdToOutput = new HashMap<>();
+
+            // 获取当前stage的所有sinkNodes的outputPath
+            for(Integer sinkId: planInfo.getSinkNodes()){
+                String outputPath = nodes.get(sinkId).
+                        getOperatorInfo().getParams().
+                        get("outputPath");
+                sinkIdToOutput.put(sinkId, outputPath);
+            }
+            results.put(curStageId, sinkIdToOutput);
+
+            // 向后面遍历
+            for(int postStageId: curStage.getOutputStageId()){
+                if(!visited.contains(postStageId)){
+                    visited.add(curStageId);
+                    Q.add(postStageId);
+                }
+            }
+        }
+
+        return results;
     }
 }

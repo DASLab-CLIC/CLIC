@@ -50,6 +50,7 @@ struct PlanNode {
 struct Plan {
     1: map<i32, PlanNode> nodes = {}// 保存该计划的所有节点，key=nodeId
     2: list<i32> sourceNodes = {}// 所有开始节点的id
+    3: list<i32> sinkNodes = {} // 所有结束结点的id
     16: map<string, string> others = {}// 用户提供的其他参数
     // 包含： udfPath, platforms, 等
 }

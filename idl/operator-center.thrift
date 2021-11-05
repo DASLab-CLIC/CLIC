@@ -9,8 +9,10 @@ service OperatorCenter {
     void addPlatform(1: base.Platform platform) // 新增一个平台
     base.Platform findPlatformInfo(1: string platformName) // 查询平台的信息
     map<string, base.Platform> listPlatforms() // 查询所有的平台
+    void setPlatformInfo(1: string platformName, 2: base.Platform platform)
 
     // operator相关接口
     void addOperator(1: base.Operator operator) // 新增一个operator
     base.Operator findOperatorInfo(1: string operatorName, 2: string platformName) // 查询算子的信息
+    void setOperatorInfo(1: string operatorName, 2: base.Operator operator)
 }
