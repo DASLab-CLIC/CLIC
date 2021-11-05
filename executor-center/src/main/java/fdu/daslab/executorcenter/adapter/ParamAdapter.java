@@ -29,7 +29,7 @@ import java.util.*;
 @Component
 public class ParamAdapter {
 
-    @Value("${dag.localPrefix}")
+    @Value("${dag.prefix}")
     private String dagPrefix; // 输出的dag描述文件的文件存放路径
 
     @Value("${thrift.notify.host}")
