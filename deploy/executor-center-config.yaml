@@ -27,5 +27,5 @@ data:
       mpi:
         create: "/apis/kubeflow.org/v1/namespaces/default/mpijobs"
     hpc:
-      host: "192.168.1.2"
+      host: "192.168.1.8"
       port: 22

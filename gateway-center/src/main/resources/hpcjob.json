@@ -1,0 +1,57 @@
+{
+  "planParams": [
+    {"name": "env", "value": "hpc"},
+    {"name": "hpc-username", "value": ""},
+    {"name": "hpc-password", "value": ""}
+  ],
+  "operators": [
+    {
+      "Id": 1,
+      "Platform": "hpc",
+      "Name": "wrfOperator",
+      "Params": [
+        {"name": "startTime", "value": "2005-09-01 00:00:00"},
+        {"name": "endTime", "value": "2005-09-06 00:00:00"},
+        {"name": "nproc_x", "value": "1"},
+        {"name": "nproc_y", "value": "1"}
+      ],
+      "outputKeys": ["result"]
+    },
+    {
+      "Id": 2,
+      "Platform": "hpc",
+      "Name": "oceanOperator",
+      "Params": [
+        {"name": "startTime", "value": "2005-09-01 00:00:00"},
+        {"name": "endTime", "value": "2005-09-06 00:00:00"},
+        {"name": "NtileI", "value": "1"},
+        {"name": "NtileJ", "value": "1"}
+      ],
+      "outputKeys": ["result"]
+    },
+    {
+      "Id": 3,
+      "Platform": "hpc",
+      "Name": "couplingOperator",
+      "Params": [
+        {"name": "nodeATM", "value": "1"},
+        {"name": "nodeOCN", "value": "1"}
+      ],
+      "outputKeys": ["result"]
+    },
+    {
+      "Id": 4,
+      "Platform": "hpc",
+      "Name": "submitOperator",
+      "Params": [
+        {"name": "nodeNum", "value": "2"}
+      ],
+      "inputKeys": [
+        {"name": "topo1", "from": 1, "key": "result"},
+        {"name": "topo2", "from": 2, "key": "result"},
+        {"name": "topo3", "from": 3, "key": "result"}
+      ],
+      "outputKeys": ["result"]
+    }
+  ]
+}

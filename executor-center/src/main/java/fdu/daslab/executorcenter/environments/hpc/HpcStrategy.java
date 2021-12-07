@@ -44,6 +44,7 @@ public class HpcStrategy {
     public void createJob(String command, String username, String password) throws JSchException {
         Session jschSession = null;
         try {
+            logger.info("hpc address: " + host + ":" + port + "\n");
             JSch jsch = new JSch();
 //            jsch.setKnownHosts("/Users/zjchen/.ssh/known_hosts");
             jschSession = jsch.getSession(username, host, port);

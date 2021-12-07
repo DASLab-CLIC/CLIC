@@ -20,8 +20,8 @@
 //
 //public class jschTest {
 //    private static final String REMOTE_HOST = "10.106.10.71";
-//    private static final String USERNAME = "usr-dDyDTogd";
-//    private static final String PASSWORD = "Sdsc@0199";
+//    private static final String USERNAME = "";
+//    private static final String PASSWORD = "";
 //    private static final int REMOTE_PORT = 20023;
 //    private static final int SESSION_TIMEOUT = 10000;
 //    private static final int CHANNEL_TIMEOUT = 5000;
@@ -102,8 +102,11 @@
 //            ChannelExec channelExec = (ChannelExec) jschSession.openChannel("exec");
 //
 //            // run a shell script
-//            channelExec.setCommand("echo $PWD; source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
-//            System.out.println(commandTest());
+////            channelExec.setCommand("echo $PWD; source /es01/shanhe/hpc_mnt/home/usr-dDyDTogd/.bashrc; /opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
+//
+//            channelExec.setCommand("echo $PWD");
+//
+////            System.out.println(commandTest());
 ////            channelExec.setCommand("/opt/skyformai/bin/csub -n 56 -cwd /es01/shanhe/hpc_mnt/src/COAWST_v1467/Projects/JOE_TC/Coupled ./joe_tc.aip.slurm");
 ////            channelExec.setCommand(SCRIPT_PATH + " WRF 3 2 2;" + SCRIPT_PATH + " MIX 2 2");
 //
