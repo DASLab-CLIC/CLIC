@@ -32,7 +32,7 @@ public class HpcExecutor implements Executor{
     @Override
     public void execute(Stage stage){
         String command = hpcParamAdapter.getScript(stage);
-        logger.info("current command is :\n" + command);
+        logger.info("Current command is :\n" + command);
         try {
             hpcStrategy.createJob(command, stage.others.get("hpc-username"), stage.others.get("hpc-password"));
         } catch (Exception e) {
