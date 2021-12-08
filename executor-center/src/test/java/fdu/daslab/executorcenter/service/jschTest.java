@@ -52,6 +52,12 @@
 //        command.add(0, "STH");
 //        System.out.println(command);;
 //
+//        List<String> newcommand = new ArrayList<>(command);
+//        newcommand.add("a");
+//        System.out.println(newcommand);
+//        System.out.println(command);
+//
+//
 //    }
 //
 //

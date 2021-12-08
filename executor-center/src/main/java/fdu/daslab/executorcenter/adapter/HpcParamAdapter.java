@@ -76,8 +76,7 @@ public class HpcParamAdapter {
         commandList.add(2, nodeNum);
         String firstCommand = String.join(" ", commandList);
 
-        List<String> tempCommandList = new ArrayList<>();
-        Collections.copy(tempCommandList, submitCommand);
+        List<String> tempCommandList = new ArrayList<>(submitCommand);
         tempCommandList.add(2, nodeNum);
         String secondCommand = String.join(" ", tempCommandList);
         return firstCommand + ";" + secondCommand;
