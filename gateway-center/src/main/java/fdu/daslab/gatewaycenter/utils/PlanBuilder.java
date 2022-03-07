@@ -59,7 +59,11 @@ public class PlanBuilder {
 
     private PlanNode getPlanNodeFromJsonObj(JSONObject nodeInfo){
         int nodeId = nodeInfo.getInt("Id");
-        String platformName = nodeInfo.getString("Platform");
+        String platformName = "";
+        if(nodeInfo.has("Platform")){
+            platformName = nodeInfo.getString("Platform");
+        }
+        
         String operatorName = nodeInfo.getString("Name");
 
         List<Integer> inputNodeId = new ArrayList<>();
