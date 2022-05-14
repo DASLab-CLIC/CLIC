@@ -1,10 +1,13 @@
 package fdu.daslab.executorcenter.environments.kubernetes.strategy;
 
 import fdu.daslab.executorcenter.environments.kubernetes.KubernetesRestClient;
+import fdu.daslab.executorcenter.executor.KubernetesExecutor;
 import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -25,7 +28,7 @@ import java.util.List;
  */
 @Component("kubernetesJob")
 public class KubernetesJobStrategy implements KubernetesResourceStrategy {
-
+    private Logger logger = LoggerFactory.getLogger(KubernetesJobStrategy.class);
     @Autowired
     private KubernetesRestClient kubernetesRestClient;
 
@@ -47,6 +50,10 @@ public class KubernetesJobStrategy implements KubernetesResourceStrategy {
                 .replace("$commands$", platformInfo.execCommand + " " + StringUtils.joinWith(" ", params.toArray()));
         HttpClient httpClient = kubernetesRestClient.getIgnoreHttpClient();
         // TODO:可能会执行失败，需要加一些错误处理
-        httpClient.execute(kubernetesRestClient.getDefaultHttpPost(createJobUrl, yaml.load(jobYaml)));
+        try {
+            httpClient.execute(kubernetesRestClient.getDefaultHttpPost(createJobUrl, yaml.load(jobYaml)));
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
     }
 }

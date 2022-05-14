@@ -1,4 +1,5 @@
 import pandas as pd
+import torch
 
 from executable.basic.model.OperatorBase import OperatorBase
 
@@ -17,9 +18,11 @@ class SinkOperator(OperatorBase):
     def execute(self):
         data = self.getInputData("data")
         if self.params["type"] == "dataFrame":
-            pass
+            data.to_csv(self.params["outputPath"])
         elif self.params["type"] == "tensor":
             data = pd.DataFrame(data.numpy())
-        data.to_csv(self.params["outputPath"])
+            data.to_csv(self.params["outputPath"])
+        elif self.params["type"] == "model":
+            torch.save(data, self.params["outputPath"])
 
-        self.setOutputData("result", "Successful!")
+        self.setOutputData("result", self.params["outputPath"])

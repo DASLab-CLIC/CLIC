@@ -5,6 +5,8 @@ import fdu.daslab.thrift.base.Platform;
 import fdu.daslab.thrift.base.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 @Component("sparkOperator") // 格式为 平台 + Operator
 public class SparkOperatorStrategy implements KubernetesResourceStrategy {
-
+    private Logger logger = LoggerFactory.getLogger(SparkOperatorStrategy.class);
     @Autowired
     private KubernetesRestClient kubernetesRestClient;
 
@@ -44,6 +46,11 @@ public class SparkOperatorStrategy implements KubernetesResourceStrategy {
                 .replace("$sparkVersion$", platformInfo.params.get("sparkVersion"))
                 .replace("$argument$", StringUtils.joinWith(",", params.toArray()));
         HttpClient httpClient = kubernetesRestClient.getIgnoreHttpClient();
-        httpClient.execute(kubernetesRestClient.getDefaultHttpPost(createSparkUrl, yaml.load(sparkYaml)));
+        try {
+            httpClient.execute(kubernetesRestClient.getDefaultHttpPost(createSparkUrl, yaml.load(sparkYaml)));
+        } catch (Exception e){
+            logger.error(e.toString());
+        }
+
     }
 }
