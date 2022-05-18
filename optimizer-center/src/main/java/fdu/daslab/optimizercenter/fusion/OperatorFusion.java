@@ -54,7 +54,7 @@ public class OperatorFusion {
                 sourceId.add(curNodeId);
             }
             // 如果当前节点不是sink节点，则继续向后遍历
-            if (!channelEnrich.isSink(curNode) && curNode.outputNodeId != null) {
+            if (!channelEnrich.isSink(curNode) && !curNode.outputNodeId.isEmpty()) {
                 for (int postNodeId : curNode.outputNodeId) {
                     if (!visited.contains(postNodeId)) {
                         Q.add(postNodeId);
