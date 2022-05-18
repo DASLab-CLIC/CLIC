@@ -62,7 +62,9 @@ public class OperatorFusion {
                 }
             } else{
                 // 否则，添加sink结点
-                sinkId.add(curNodeId);
+                if (!sinkId.contains(curNodeId)) {  // 过滤重复结点
+                    sinkId.add(curNodeId);
+                }
             }
 
             // 保存channel节点
@@ -72,6 +74,7 @@ public class OperatorFusion {
                 channelToStage.put(curNodeId, stageId);
             }
         }
+
         Plan subPlan = new Plan(subPlanNodes, sourceId, sinkId, new HashMap<>());
         Stage stage = new Stage();
         stage.setStageId(stageId);
